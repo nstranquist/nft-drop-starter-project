@@ -1,0 +1,19 @@
+{
+  "name": "TEST_METATED_0",
+  "symbol": "",
+  "image": "0.png",
+  "properties": {
+    "files": [
+      {
+        "uri": "0.png",
+        "type": "image/png"
+      }
+    ],
+    "creators": [
+      {
+        "address": "2UgGVRBaaryS3543bddNSGyezGrWzUGuJJtruLayDMF2",
+        "share": 100
+      }
+    ]
+  }
+}
