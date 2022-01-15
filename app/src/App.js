@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import twitterLogo from './assets/twitter-logo.svg';
 
@@ -7,6 +7,7 @@ const TWITTER_HANDLE = 'MetaTeds';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
+  const [walletAddress, setWalletAddress] = useState(null)
   
   // For now, will only be supporting Phantom Wallet
   const checkIfWalletIsConnected = async () => {
@@ -21,6 +22,8 @@ const App = () => {
           // see more: https://docs.phantom.app/integrating/establishing-a-connection#eagerly-connecting
           const response = await solana.connect({ onlyIfTrusted: true })
           console.log("Connected with public key:", response.publicKey.toString())
+        
+          setWalletAddress(response.publicKey.toString())
         }
       }
       else
@@ -32,7 +35,13 @@ const App = () => {
   }
 
   const connectWallet = async () => {
+    const { solana } = window
 
+    if(!solana) return;
+  
+    const response = await solana.connect()
+    console.log('connected with pubkey:', response.publicKey.toString())
+    setWalletAddress(response.publicKey.toString())
   }
 
   // Render the button when the user hasn't connected their wallet
@@ -59,7 +68,7 @@ const App = () => {
         <div className="header-container">
           <p className="header">🍭 Candy Drop</p>
           <p className="sub-text">NFT drop machine with fair mint</p>
-          {renderNotConnectedContainer()}
+          {!walletAddress && renderNotConnectedContainer()}
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
