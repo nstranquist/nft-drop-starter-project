@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import twitterLogo from './assets/twitter-logo.svg';
 
 // Constants
-const TWITTER_HANDLE = '_buildspace';
+const TWITTER_HANDLE = 'MetaTeds';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
+  
+  // For now, will only be supporting Phantom Wallet
+  const checkIfWalletIsConnected = async () => {
+    try {
+      const { solana } = window;
+
+      if(solana) {
+        if(solana.isPhantom)
+          console.log("phantom wallet found")
+      }
+      else
+        alert("Solana object not found. Get a phantom wallet")
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    const onLoad = async () => {
+      await checkIfWalletIsConnected();
+    }
+    window.addEventListener('load', onLoad);
+    return () => window.removeEventListener('load', onLoad)
+  }, [])
+
   return (
     <div className="App">
       <div className="container">
