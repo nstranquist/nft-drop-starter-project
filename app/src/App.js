@@ -14,8 +14,14 @@ const App = () => {
       const { solana } = window;
 
       if(solana) {
-        if(solana.isPhantom)
+        if(solana.isPhantom) {
           console.log("phantom wallet found")
+
+          // Check that we have permission to connect to the user's wallet
+          // see more: https://docs.phantom.app/integrating/establishing-a-connection#eagerly-connecting
+          const response = await solana.connect({ onlyIfTrusted: true })
+          console.log("Connected with public key:", response.publicKey.toString())
+        }
       }
       else
         alert("Solana object not found. Get a phantom wallet")
